@@ -11,7 +11,7 @@ import os
 # Determine the path of the database
 script_dir = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(script_dir, 'social_network.db')
-
+import sqlite3
 def main():
     create_people_table()
     populate_people_table()
@@ -19,6 +19,29 @@ def main():
 def create_people_table():
     """Creates the people table in the database"""
     # TODO: Create function body
+    con = sqlite3.connect('social_network.db')
+
+    cur = con.cursor
+    create_ppl_tbl_query= """
+    CREATE TABLE IF NOT EXISTS people
+    (
+        id      INTEGER PRIMARY KEY,
+        name    TEXT NOT NULL,
+        email   TEXT NOT NULL,
+        address TEXT NOT NULL,
+        city    TEXT NOT NULL,
+        province TEXT NOT NULL,
+        bio     TEXT,
+        age     INTEGER,
+        created_at DATETIME NOT NULL,
+        updated_at DATETIME NOT NULL
+    );
+    """
+    cur.execute(create_ppl_tbl_query)
+    con.commit
+    con.close
+    
+
     # Hint: See example code in lab instructions entitled "Creating a Table"
     return
 
